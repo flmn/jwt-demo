@@ -1,0 +1,26 @@
+GET http://localhost:8080/encode
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+
+client.global.set("encoded", response.body);
+%}
+
+###
+
+POST http://localhost:8080/decode
+Content-Type: application/json
+
+{{encoded}}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+
+client.global.clear("encoded");
+%}
+
+###
